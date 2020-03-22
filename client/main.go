@@ -6,6 +6,7 @@ import (
 	"github.com/rsocket/rsocket-go"
 	"github.com/rsocket/rsocket-go/payload"
 	"log"
+	"time"
 )
 
 func main() {
@@ -26,7 +27,8 @@ func RSocketConnect( serverPort int){
 		panic(err)
 	}
 	counter := 0
-	for i := 0; i< 100000; i++ {
+	var startTime = time.Now().Format(time.RFC3339)
+	for i := 0; i<= 100000; i++ {
 		// Send request
 		result, err := cli.RequestResponse(payload.NewString(fmt.Sprintf("%s%d","count:",i), "Metadata")).
 			Block(context.Background())
@@ -40,4 +42,6 @@ func RSocketConnect( serverPort int){
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println(startTime)
+	fmt.Println(time.Now().Format(time.RFC3339))
 }
